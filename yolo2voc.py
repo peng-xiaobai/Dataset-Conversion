@@ -88,9 +88,11 @@ def yolo2voc(dir1,dir2,dir3,Class):
 
             fxml.write(out0 % source)
             lines = np.loadtxt(txt)
+            flag = 0
             for box in lines:
                 if box.shape != (5,):
                     box = lines
+                    flag = 1
                 '''把txt上的第一列（类别）转成xml上的类别'''
                 box_index = int(box[0])
                 label['class'] = Class[box_index] # 类别索引从1开始
@@ -112,6 +114,8 @@ def yolo2voc(dir1,dir2,dir3,Class):
                         label[key] = 0
 
                 fxml.write(out1 % label)
+                if flag == 1:
+                    break
             fxml.write(out2)
 
 
