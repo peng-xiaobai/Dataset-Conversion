@@ -2,17 +2,15 @@
 # github:peng-xiaobai
 import os
 import xml.etree.ElementTree as ET
- 
-# 定义类别顺序
-categories = [' ']
-  
+
+categories = ['hat','nohat'] # 类别
 category_to_index = {category: index for index, category in enumerate(categories)}
- 
+
 # 定义输入文件夹和输出文件夹
 input_folder = r' '  # 替换为XML文件夹路径
 output_folder = r' '  # 替换为TXT文件夹路径
 os.makedirs(output_folder, exist_ok=True)
- 
+
 # 遍历输入文件夹中的所有XML文件
 for filename in os.listdir(input_folder):
 	if filename.endswith('.xml'):
@@ -26,7 +24,7 @@ for filename in os.listdir(input_folder):
 		height = int(size.find('height').text)
 		# 存储name和对应的归一化坐标
 		objects = []
- 
+
 		# 遍历XML中的object标签
 		for obj in root.findall('object'):
 			name = obj.find('name').text
@@ -39,20 +37,20 @@ for filename in os.listdir(input_folder):
 			ymin = int(bndbox.find('ymin').text)
 			xmax = int(bndbox.find('xmax').text)
 			ymax = int(bndbox.find('ymax').text)
- 
+
 			# 转换为中心点坐标和宽高
 			x_center = (xmin + xmax) / 2.0
 			y_center = (ymin + ymax) / 2.0
 			w = xmax - xmin
 			h = ymax - ymin
- 
+
 			# 归一化
 			x = x_center / width
 			y = y_center / height
 			w = w / width
 			h = h / height
 			objects.append(f"{category_index} {x} {y} {w} {h}")
- 
+
 		# 输出结果到对应的TXT文件
 		txt_filename = os.path.splitext(filename)[0] + '.txt'
 		txt_path = os.path.join(output_folder, txt_filename)
