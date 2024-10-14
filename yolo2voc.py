@@ -124,4 +124,4 @@ if __name__ == '__main__':
         os.makedirs(file_dir2)
     upp2low(file_dir1)
     yolo2voc(file_dir1,file_dir2,file_dir3,l)
-    print('转换已结束')
+    print('Conversion has ended!')
